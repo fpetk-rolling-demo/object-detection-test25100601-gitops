@@ -1,0 +1,6 @@
+apiVersion: "pipelinesascode.tekton.dev/v1alpha1"
+kind: Repository
+metadata:
+  name: object-detection-test25100601-gitops-repository
+spec:
+  url: https://github.com/fpetk-rolling-demo/object-detection-test25100601-gitops

@@ -1,0 +1,21 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: dsp-clone-job-object-detection-test25100601-gitops
+spec:
+  template:
+    metadata:
+      name: dsp-clone-job-object-detection-test25100601-gitops
+    spec:
+      serviceAccountName: object-detection-test25100601-dsp-job
+      containers:
+        - name: initialize-dsp
+          image: quay.io/redhat-ai-dev/utils:latest
+          command:
+            - /bin/bash
+            - -c
+            - |
+              NS=$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace)
+              oc wait -l statefulset=object-detection-test25100601-notebook --for=condition=ready pod --timeout=300s
+              oc exec  StatefulSet/object-detection-test25100601-notebook -- git clone https://github.com/fpetk-rolling-demo/object-detection-test25100601
+      restartPolicy: Never
